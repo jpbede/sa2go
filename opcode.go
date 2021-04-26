@@ -36,7 +36,7 @@ func rsr(sa *SA2) {
 
 func add(sa *SA2) {
 	sa.carryFlag = 0
-	operands := sa.Tape[sa.pointer+1 : sa.pointer+5]
+	operands := sa.opcode[sa.pointer+1 : sa.pointer+5]
 	addInt := int(operands[0])<<24 | int(operands[1])<<16 | int(operands[2])<<8 | int(operands[3])
 	outputRegister := sa.register + addInt
 	if outputRegister > 0xffffffff {
@@ -49,7 +49,7 @@ func add(sa *SA2) {
 
 func sub(sa *SA2) {
 	sa.carryFlag = 0
-	operands := sa.Tape[sa.pointer+1 : sa.pointer+5]
+	operands := sa.opcode[sa.pointer+1 : sa.pointer+5]
 	subInt := int(operands[0])<<24 | int(operands[1])<<16 | int(operands[2])<<8 | int(operands[3])
 	outputRegister := sa.register - subInt
 	if outputRegister < 0 {
@@ -61,14 +61,14 @@ func sub(sa *SA2) {
 }
 
 func eor(sa *SA2) {
-	operands := sa.Tape[sa.pointer+1 : sa.pointer+5]
+	operands := sa.opcode[sa.pointer+1 : sa.pointer+5]
 	xorInt := int(operands[0])<<24 | int(operands[1])<<16 | int(operands[2])<<8 | int(operands[3])
 	sa.register = sa.register ^ xorInt
 	sa.pointer += 5
 }
 
 func for_loop(sa *SA2) {
-	operands := sa.Tape[sa.pointer+1 : sa.pointer+2]
+	operands := sa.opcode[sa.pointer+1 : sa.pointer+2]
 	sa.forIterations.PushFront(int(operands[0] - 1))
 	sa.pointer += 2
 	sa.forPointers.PushFront(sa.pointer)
@@ -87,7 +87,7 @@ func next_loop(sa *SA2) {
 }
 
 func bcc(sa *SA2) {
-	operands := sa.Tape[sa.pointer+1 : sa.pointer+2]
+	operands := sa.opcode[sa.pointer+1 : sa.pointer+2]
 	skipCount := operands[0] + 2
 	if sa.carryFlag == 0 {
 		sa.pointer += int(skipCount)
@@ -97,7 +97,7 @@ func bcc(sa *SA2) {
 }
 
 func bra(sa *SA2) {
-	operands := sa.Tape[sa.pointer+1 : sa.pointer+2]
+	operands := sa.opcode[sa.pointer+1 : sa.pointer+2]
 	skipCount := operands[0] + 2
 	sa.pointer += int(skipCount)
 }
