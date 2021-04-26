@@ -16,11 +16,12 @@ type SA2 struct {
 	register  int
 }
 
+// New creates a new SA2 opcode executor
 func New(opcode []byte) *SA2 {
 	return &SA2{opcode: opcode}
 }
 
-// Execute executes the opcode on the seed
+// Execute executes the opcode on the give seed
 func (sa *SA2) Execute(seed int) int {
 	sa.register = seed
 	opcodeFunctions := getOpcodeFunctionSet()
@@ -29,5 +30,5 @@ func (sa *SA2) Execute(seed int) int {
 		opcodeFunctions[sa.opcode[sa.pointer]](sa)
 	}
 
-	return int(sa.register)
+	return sa.register
 }
