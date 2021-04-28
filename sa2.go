@@ -1,6 +1,8 @@
 package sa2
 
 import (
+	"bytes"
+	"encoding/binary"
 	"github.com/gammazero/deque"
 )
 
@@ -24,11 +26,25 @@ func New(opcode []byte) *SA2 {
 // Execute executes the opcode on the give seed
 func (sa *SA2) Execute(seed int) int {
 	sa.register = seed
-	opcodeFunctions := getOpcodeFunctionSet()
 
+	// run opcode
+	opcodeFunctions := getOpcodeFunctionSet()
 	for sa.pointer < len(sa.opcode) {
 		opcodeFunctions[sa.opcode[sa.pointer]](sa)
 	}
 
+	// reset pointer so we can re-execute it
+	sa.pointer = 0
+
 	return sa.register
+}
+
+// Executes runs the opcode on a given byte slice
+func (sa *SA2) ExecuteByteSeed(seed []byte) (int, error) {
+	var seedInt int32
+	buf := bytes.NewBuffer(seed)
+	if err := binary.Read(buf, binary.BigEndian, &seedInt); err != nil {
+		return 0, err
+	}
+	return sa.Execute(int(seedInt)), nil
 }
