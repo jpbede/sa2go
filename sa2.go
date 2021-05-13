@@ -1,4 +1,4 @@
-package sa2
+package sa2 // import "go.bnck.me/sa2"
 
 import (
 	"bytes"

@@ -1,4 +1,4 @@
-module go.bnck.me/sa2go
+module go.bnck.me/sa2
 
 go 1.16
 

@@ -2,7 +2,7 @@ package sa2_test
 
 import (
 	"github.com/stretchr/testify/assert"
-	sa2 "go.bnck.me/sa2go"
+	"go.bnck.me/sa2"
 	"testing"
 )
 
