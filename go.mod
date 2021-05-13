@@ -1,4 +1,4 @@
-module github.com/jpbede/sa2go
+module go.bnck.me/sa2go
 
 go 1.16
 

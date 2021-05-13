@@ -1,8 +1,8 @@
 package sa2_test
 
 import (
-	sa2 "github.com/jpbede/sa2go"
 	"github.com/stretchr/testify/assert"
+	sa2 "go.bnck.me/sa2go"
 	"testing"
 )
 
